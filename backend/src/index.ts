@@ -3,6 +3,7 @@ import cors from "cors"
 import "dotenv/config"
 import mongoose from "mongoose"
 import userRoutes from "./routes/users"
+import authRoutes from "./routes/auth"
 
 mongoose.connect(process.env.MONGODB_CONNECTION_STRING as string)
 
@@ -11,8 +12,8 @@ app.use(express.json()) // helps converting body of API requests into JSON, so w
 app.use(express.urlencoded({ extended: true })) // helps us parse URL to get parameters
 app.use(cors()) // cors is a security thing, will prevent certain requests from certain URL if it doesn't agrees with them, e.g., if our UI is going to be on diff port to our backend, then cors is going to find it funny and block the request, helps us configure to stop it from happening
 
-//ßapp.use("/api/auth", authRoutes);
-app.use("/api/users", userRoutes)
+app.use("/api/auth", authRoutes) // any request to login will go to authRoutes
+app.use("/api/users", userRoutes) // any request to registeration will go to userRoutes
 
 app.listen(7001, () => {
   // start the server
